@@ -8,6 +8,7 @@ public class NeoChat {
     private static final String UNMARK= "unmark ";
     private static final String BYE = "bye";
     private static final String LIST = "list";
+    private static final String HELP = "help";
     private static int count = 0;
 
 
@@ -36,11 +37,27 @@ public class NeoChat {
                 markAsDone(input.substring(5));
             } else if (input.startsWith(UNMARK)) {
                 markAsNotDone(input.substring(7));
+            } else if (HELP.equals(input)) {
+                printCommandList();
             } else {
-                System.out.println("Invalid command. Please try again.");
+                System.out.println("Invalid command. Please try again, or type 'help' for help.");
             }
         }
         sc.close();
+    }
+
+    private static void printCommandList() {
+        System.out.println("____________________________________________________________");
+        System.out.println("Here are the available commands:");
+        System.out.println("1. list - Show all tasks");
+        System.out.println("2. todo <description> - Add a Todo task");
+        System.out.println("3. deadline <description> /by <time> - Add a Deadline task");
+        System.out.println("4. event <description> /from <start> /to <end> - Add an Event task");
+        System.out.println("5. mark <task number> - Mark a task as done");
+        System.out.println("6. unmark <task number> - Mark a task as not done yet");
+        System.out.println("7. help - Show the command list");
+        System.out.println("8. bye - Exit the program");
+        System.out.println("____________________________________________________________");
     }
 
     private static void printList() {
@@ -93,10 +110,15 @@ public class NeoChat {
     }
 
     private static void addTodo(String description) {
-        Todo todo = new Todo(description);
-        count++;
-        taskList.add(todo);
-        printAddedTask(todo);
+        try {
+            Todo todo = new Todo(description);
+            count++;
+            taskList.add(todo);
+            printAddedTask(todo);
+        } catch (EmptyTaskDescriptionException e) {
+            System.out.println("Invalid task description. Please provide a valid description.");
+        }
+
     }
 
     private static void addDeadline(String userInput) {
@@ -105,10 +127,16 @@ public class NeoChat {
             System.out.println("Invalid command parameters. Please try again.");
             return;
         } else {
-            Deadline deadline = new Deadline(tokens[0], tokens[1]);
-            count++;
-            taskList.add(deadline);
-            printAddedTask(deadline);
+            try {
+                Deadline deadline = new Deadline(tokens[0], tokens[1]);
+                count++;
+                taskList.add(deadline);
+                printAddedTask(deadline);
+            } catch (EmptyTaskDescriptionException e) {
+                System.out.println("Invalid task description. Please provide a valid description.");
+            }
+
+
         }
     }
 
@@ -118,10 +146,15 @@ public class NeoChat {
             System.out.println("Invalid command parameters. Please try again.");
             return;
         } else {
-            Event event = new Event(parts[0], parts[1], parts[2]);
-            count++;
-            taskList.add(event);
-            printAddedTask(event);
+            try {
+                Event event = new Event(parts[0], parts[1], parts[2]);
+                count++;
+                taskList.add(event);
+                printAddedTask(event);
+            } catch (EmptyTaskDescriptionException e) {
+                System.out.println("Invalid task description. Please provide a valid description.");
+            }
+
         }
     }
 
