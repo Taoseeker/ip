@@ -9,6 +9,7 @@ public class NeoChat {
     private static final String BYE = "bye";
     private static final String LIST = "list";
     private static final String HELP = "help";
+    private static final String DELETE = "delete";
     private static int count = 0;
 
 
@@ -37,6 +38,8 @@ public class NeoChat {
                 markAsDone(input.substring(5));
             } else if (input.startsWith(UNMARK)) {
                 markAsNotDone(input.substring(7));
+            } else if (input.startsWith(DELETE)) {
+                delete(input.substring(7));
             } else if (HELP.equals(input)) {
                 printCommandList();
             } else {
@@ -62,7 +65,7 @@ public class NeoChat {
 
     private static void printList() {
             if(count == 0) {
-                System.out.println("Empty todo list!");
+                System.out.println("Empty task list!");
             } else {
                 for (int i = 0; i < count; i++) {
                     Task task = taskList.get(i);
@@ -101,6 +104,27 @@ public class NeoChat {
             System.out.println("____________________________________________________________");
             System.out.println("OK, I've marked this task as not done yet:");
             System.out.println("  " + task);
+            System.out.println("____________________________________________________________");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please provide a valid task number.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
+        }
+    }
+
+    private static void delete(String input) {
+        try {
+            int taskIndex = Integer.parseInt(input) - 1;
+            if (taskIndex < 0 || taskIndex >= count) {
+                throw new IndexOutOfBoundsException();
+            }
+            Task task = taskList.get(taskIndex);
+            taskList.remove(taskIndex);
+            count--;
+            System.out.println("____________________________________________________________");
+            System.out.println("Noted. I've removed this task:");
+            System.out.println("  " + task);
+            System.out.println("Now you have " + count + " tasks in the list.");
             System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please provide a valid task number.");
