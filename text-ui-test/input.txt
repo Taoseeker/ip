@@ -1,0 +1,15 @@
+todo borrow book
+list
+deadline return book /by Sunday
+event project meeting /from Mon 2pm /to 4pm
+deadline drop cs2103T
+deadline drop cs2103T /by Week 2
+event attend cs2103T tutorial /from Mon 2 pm
+event attend cs2103T tutorial /from Mon 2 pm /to 3pm
+mark 1
+unmark 1
+mark 100
+unmark 100
+list
+todo
+bye

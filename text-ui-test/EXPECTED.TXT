@@ -1,7 +1,48 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+Hello! I am NeoChat!
+What can I do for you?
 
+____________________________________________________________
+Got it. I've added this task:
+  [T][ ] borrow book
+Now you have 1 tasks in the list.
+____________________________________________________________
+1: [T][ ] borrow book
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] return book (by: Sunday)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+Now you have 3 tasks in the list.
+____________________________________________________________
+Invalid command parameters. Please try again.
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] drop cs2103T (by: Week 2)
+Now you have 4 tasks in the list.
+____________________________________________________________
+Invalid command parameters. Please try again.
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] attend cs2103T tutorial (from: Mon 2 pm to: 3pm)
+Now you have 5 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [T][X] borrow book
+____________________________________________________________
+____________________________________________________________
+OK, I've marked this task as not done yet:
+  [T][ ] borrow book
+____________________________________________________________
+Invalid task number. Please provide a number between 1 and 5.
+Invalid task number. Please provide a number between 1 and 5.
+1: [T][ ] borrow book
+2: [D][ ] return book (by: Sunday)
+3: [E][ ] project meeting (from: Mon 2pm to: 4pm)
+4: [D][ ] drop cs2103T (by: Week 2)
+5: [E][ ] attend cs2103T tutorial (from: Mon 2 pm to: 3pm)
+Invalid command. Please try again.
+Bye! See you next time!
