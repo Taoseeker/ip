@@ -1,4 +1,4 @@
-Hello! I am NeoChat!
+Hello! I am neochat.NeoChat!
 What can I do for you?
 
 ____________________________________________________________

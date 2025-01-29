@@ -1,3 +1,5 @@
+package neochat;
+
 import java.util.*;
 
 public class NeoChat {
@@ -17,7 +19,7 @@ public class NeoChat {
         Scanner sc = new Scanner(System.in);
 
 
-        System.out.println("Hello! I am NeoChat!");
+        System.out.println("Hello! I am neochat.NeoChat!");
         System.out.println("What can I do for you?" + "\n");
 
         while (true) {
@@ -53,9 +55,9 @@ public class NeoChat {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the available commands:");
         System.out.println("1. list - Show all tasks");
-        System.out.println("2. todo <description> - Add a Todo task");
-        System.out.println("3. deadline <description> /by <time> - Add a Deadline task");
-        System.out.println("4. event <description> /from <start> /to <end> - Add an Event task");
+        System.out.println("2. todo <description> - Add a neochat.Todo task");
+        System.out.println("3. deadline <description> /by <time> - Add a neochat.Deadline task");
+        System.out.println("4. event <description> /from <start> /to <end> - Add an neochat.Event task");
         System.out.println("5. mark <task number> - Mark a task as done");
         System.out.println("6. unmark <task number> - Mark a task as not done yet");
         System.out.println("7. help - Show the command list");
