@@ -13,6 +13,10 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    public boolean contains(String keyword) {
+        return description.toLowerCase().contains(keyword);
+    }
+
     public void markDone() {
         this.isDone = true;
     }
