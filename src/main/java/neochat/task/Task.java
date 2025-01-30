@@ -6,7 +6,7 @@ public abstract class Task {
     protected boolean isDone;
 
     public Task(String description) throws EmptyTaskDescriptionException {
-        if(description == null || description.isEmpty()) {
+        if (description == null || description.isEmpty()) {
             throw new EmptyTaskDescriptionException();
         }
         this.description = description;
