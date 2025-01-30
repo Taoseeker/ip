@@ -24,6 +24,8 @@ public abstract class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    public abstract String toFileString();
+
     @Override
     public abstract String toString();
 }
