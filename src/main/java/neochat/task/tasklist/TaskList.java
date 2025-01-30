@@ -1,19 +1,21 @@
 package neochat.task.tasklist;
 
-import java.util.*;
 import java.io.*;
-import neochat.task.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
+import java.util.*;
+
+import neochat.task.*;
 import neochat.task.taskexception.EmptyTaskDescriptionException;
 
 public class TaskList {
-    private final ArrayList<Task> tasks;
-    private final File savedListFile;
     private static int count = 0;
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private final ArrayList<Task> tasks;
+    private final File savedListFile;
+
 
     public TaskList() {
         this.tasks = new ArrayList<>(100);
@@ -25,11 +27,10 @@ public class TaskList {
         saveTasks();
     }
 
-    public  void addTask(Task task) {
+    public void addTask(Task task) {
         tasks.add(task);
         count++;
         printAddedTask(task);
-
     }
 
 
@@ -37,7 +38,9 @@ public class TaskList {
         try {
             if (!savedListFile.exists()) {
                 File parentDir = savedListFile.getParentFile();
-                if (parentDir != null) parentDir.mkdirs();
+                if (parentDir != null) {
+                    parentDir.mkdirs();
+                }
                 savedListFile.createNewFile();
                 return;
             }
@@ -61,7 +64,9 @@ public class TaskList {
 
     private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
-        if (parts.length < 3) return null;
+        if (parts.length < 3) {
+            return null;
+        }
 
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
@@ -69,31 +74,41 @@ public class TaskList {
 
         try {
             switch (type) {
-                case "T":
-                    Todo todo = new Todo(description);
-                    if (isDone) todo.markDone();
-                    return todo;
-                case "D":
-                    if (parts.length < 4) return null;
-                    LocalDateTime by = parseDateTime(parts[3].trim());
-                    Deadline deadline = new Deadline(description, by);
-                    if (isDone) deadline.markDone();
-                    return deadline;
-                case "E":
-                    if (parts.length < 5) return null;
-                    LocalDateTime from = parseDateTime(parts[3].trim());
-                    LocalDateTime to = parseDateTime(parts[4].trim());
-                    Event event = new Event(description, from, to);
-                    if (isDone) event.markDone();
-                    return event;
-                default:
+            case "T":
+                Todo todo = new Todo(description);
+                if (isDone) {
+                    todo.markDone();
+                }
+                return todo;
+            case "D":
+                if (parts.length < 4) {
                     return null;
+                }
+                LocalDateTime by = parseDateTime(parts[3].trim());
+                Deadline deadline = new Deadline(description, by);
+                if (isDone) {
+                    deadline.markDone();
+                }
+                return deadline;
+            case "E":
+                if (parts.length < 5) {
+                    return null;
+                }
+                LocalDateTime from = parseDateTime(parts[3].trim());
+                LocalDateTime to = parseDateTime(parts[4].trim());
+                Event event = new Event(description, from, to);
+                if (isDone) {
+                    event.markDone();
+                }
+                return event;
+            default:
+                return null;
             }
         } catch (EmptyTaskDescriptionException e) {
             // Should not reach this line: anything in the saved file should have a description as this exception is
             // already handled when the user set the task
-            System.out.println("Wrong format of task description in the saved list, please check if the saved list is " +
-                    "edited accidentally");
+            System.out.println("Wrong format of task description in the saved list, please check if the saved list is "
+                    + "edited accidentally");
             return null;
         }
 
@@ -121,7 +136,7 @@ public class TaskList {
 
 
     public void printList() {
-        if(count == 0) {
+        if (count == 0) {
             System.out.println("Empty task list!");
         } else {
             for (int i = 0; i < count; i++) {

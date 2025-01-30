@@ -1,11 +1,11 @@
 package neochat.task;
 
-
-import neochat.task.tasklist.TaskList;
-import neochat.task.taskexception.EmptyTaskDescriptionException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
+
+import neochat.task.tasklist.TaskList;
+import neochat.task.taskexception.EmptyTaskDescriptionException;
 
 public class Parser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -32,42 +32,38 @@ public class Parser {
 
         try {
             switch (commandType) {
-                case "todo":
-                    parseTodo(remainingInput);
-                    break;
-                case "deadline":
-                    parseDeadline(remainingInput);
-                    break;
-                case "event":
-                    parseEvent(remainingInput);
-                    break;
-                case "bye" :
-                    isExit = true;
-                    break;
-                case "list":
-                    taskList.printList();
-                    break;
-                case "mark":
-                    taskList.markAsDone(remainingInput);
-                    break;
-                case "unmark":
-                    taskList.markAsNotDone(remainingInput);
-                    break;
-                case "delete":
-                    taskList.delete(remainingInput);
-                    break;
-                case "help":
-                    printCommandList();
-                    break;
-                case "find":
-                    if (remainingInput.isEmpty()) {
-                        System.out.println("Please provide a keyword to search.");
-                    } else {
-                        taskList.findTasks(remainingInput);
-                    }
-                    break;
-                default:
-                    System.out.println("Unknown command type" + commandType);
+            case "todo":
+                parseTodo(remainingInput);
+                break;
+            case "deadline":
+                parseDeadline(remainingInput);
+                break;
+            case "event":
+                parseEvent(remainingInput);
+                break;
+            case "bye" :
+                isExit = true;
+                break;
+            case "list":
+                taskList.printList();
+                break;
+            case "mark":
+                taskList.markAsDone(remainingInput);
+                break;
+            case "unmark":
+                taskList.markAsNotDone(remainingInput);
+                break;
+            case "delete":
+                taskList.delete(remainingInput);
+                break;
+            case "help":
+                printCommandList();
+                break;
+            case "find":
+                taskList.findTasks(remainingInput);
+                break;
+            default:
+                System.out.println("Unknown command type" + commandType);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -85,7 +81,6 @@ public class Parser {
         System.out.println("6. unmark <task number> - Mark a task as not done yet");
         System.out.println("7. help - Show the command list");
         System.out.println("8. bye - Exit the program");
-        System.out.println("9. find <keyword> - Search tasks by keyword");
         System.out.println("____________________________________________________________");
     }
 
