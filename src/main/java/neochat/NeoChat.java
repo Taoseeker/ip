@@ -2,193 +2,37 @@ package neochat;
 
 import neochat.task.Parser;
 import neochat.task.tasklist.TaskList;
-import java.util.*;
+import neochat.ui.Ui;
+
 
 public class NeoChat {
     private static final TaskList taskList = new TaskList();
-    private static final String finished = "X";
-    private static final String notFinished = " ";
-    private static final String MARK = "mark ";
-    private static final String UNMARK= "unmark ";
-    private static final String BYE = "bye";
-    private static final String LIST = "list";
-    private static final String HELP = "help";
-    private static final String DELETE = "delete";
     private static final Parser parser = new Parser(taskList);
+    private static final Ui ui = new Ui();
+
 
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        run();
+    }
 
-
-        System.out.println("Hello! I am NeoChat!");
-        System.out.println("What can I do for you?" + "\n");
-
-        while (true) {
-            String input = sc.nextLine();
-
-            if (BYE.equals(input)) {
-                System.out.println("Bye! See you next time!");
-                taskList.quit();
-                break;
-            } else if (LIST.equals(input)) {
-                taskList.printList();
-            } else if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
-                parser.parseCommand(input);
-            } else if (input.startsWith(MARK)) {
-                taskList.markAsDone(input.substring(5));
-            } else if (input.startsWith(UNMARK)) {
-                taskList.markAsNotDone(input.substring(7));
-            } else if (input.startsWith(DELETE)) {
-                taskList.delete(input.substring(7));
-            } else if (HELP.equals(input)) {
-                printCommandList();
-            } else {
-                System.out.println("Invalid command. Please try again, or type 'help' for help.");
+    private static void run() {
+        ui.greeting();
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String fullCommand = ui.readCommand();
+                parser.parseCommand(fullCommand);
+                if (parser.isExit()) {
+                    isExit = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                ui.showLine();
             }
         }
-        sc.close();
+        taskList.quit();
     }
 
-    private static void printCommandList() {
-        System.out.println("____________________________________________________________");
-        System.out.println("Here are the available commands:");
-        System.out.println("1. list - Show all tasks");
-        System.out.println("2. todo <description> - Add a Todo task");
-        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
-        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
-        System.out.println("5. mark <task number> - Mark a task as done");
-        System.out.println("6. unmark <task number> - Mark a task as not done yet");
-        System.out.println("7. help - Show the command list");
-        System.out.println("8. bye - Exit the program");
-        System.out.println("____________________________________________________________");
-    }
-
-    private static void printList() {
-        taskList.printList();
-//            if(count == 0) {
-//                System.out.println("Empty task list!");
-//            } else {
-//                for (int i = 0; i < count; i++) {
-//                    Task task = taskList.get(i);
-//                    System.out.println((i + 1) + ": " + task.toString());
-//                }
-//            }
-    }
-
-//    private static void markAsDone(String input) {
-//        try {
-//            int taskIndex = Integer.parseInt(input) - 1;
-//            if (taskIndex < 0 || taskIndex >= count) {
-//                throw new IndexOutOfBoundsException();
-//            }
-//            Task task = taskList.get(taskIndex);
-//            task.markDone();
-//            System.out.println("____________________________________________________________");
-//            System.out.println("Nice! I've marked this task as done:");
-//            System.out.println("  " + task);
-//            System.out.println("____________________________________________________________");
-//        } catch (NumberFormatException e) {
-//            System.out.println("Invalid input. Please provide a valid task number.");
-//        } catch (IndexOutOfBoundsException e) {
-//            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
-//        }
-//    }
-//
-//    private static void markAsNotDone(String input) {
-//        try {
-//            int taskIndex = Integer.parseInt(input) - 1;
-//            if (taskIndex < 0 || taskIndex >= count) {
-//                throw new IndexOutOfBoundsException();
-//            }
-//            Task task = taskList.get(taskIndex);
-//            task.markNotDone();
-//            System.out.println("____________________________________________________________");
-//            System.out.println("OK, I've marked this task as not done yet:");
-//            System.out.println("  " + task);
-//            System.out.println("____________________________________________________________");
-//        } catch (NumberFormatException e) {
-//            System.out.println("Invalid input. Please provide a valid task number.");
-//        } catch (IndexOutOfBoundsException e) {
-//            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
-//        }
-//    }
-//
-//    private static void delete(String input) {
-//        try {
-//            int taskIndex = Integer.parseInt(input) - 1;
-//            if (taskIndex < 0 || taskIndex >= count) {
-//                throw new IndexOutOfBoundsException();
-//            }
-//            Task task = taskList.get(taskIndex);
-//            taskList.remove(taskIndex);
-//            count--;
-//            System.out.println("____________________________________________________________");
-//            System.out.println("Noted. I've removed this task:");
-//            System.out.println("  " + task);
-//            System.out.println("Now you have " + count + " tasks in the list.");
-//            System.out.println("____________________________________________________________");
-//        } catch (NumberFormatException e) {
-//            System.out.println("Invalid input. Please provide a valid task number.");
-//        } catch (IndexOutOfBoundsException e) {
-//            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
-//        }
-//    }
-//
-//    private static void addTodo(String description) {
-//        try {
-//            Todo todo = new Todo(description);
-//            count++;
-//            taskList.add(todo);
-//            printAddedTask(todo);
-//        } catch (EmptyTaskDescriptionException e) {
-//            System.out.println("Invalid task description. Please provide a valid description.");
-//        }
-//
-//    }
-//
-//    private static void addDeadline(String userInput) {
-//        String[] tokens = userInput.split(" /by ", 2);
-//        if (tokens.length < 2) {
-//            System.out.println("Invalid command parameters. Please try again.");
-//            return;
-//        } else {
-//            try {
-//                Deadline deadline = new Deadline(tokens[0], tokens[1]);
-//                count++;
-//                taskList.add(deadline);
-//                printAddedTask(deadline);
-//            } catch (EmptyTaskDescriptionException e) {
-//                System.out.println("Invalid task description. Please provide a valid description.");
-//            }
-//
-//
-//        }
-//    }
-//
-//    private static void addEvent(String userInput) {
-//        String[] parts = userInput.split(" /from | /to ", 3);
-//        if (parts.length < 3) {
-//            System.out.println("Invalid command parameters. Please try again.");
-//            return;
-//        } else {
-//            try {
-//                Event event = new Event(parts[0], parts[1], parts[2]);
-//                count++;
-//                taskList.add(event);
-//                printAddedTask(event);
-//            } catch (EmptyTaskDescriptionException e) {
-//                System.out.println("Invalid task description. Please provide a valid description.");
-//            }
-//
-//        }
-//    }
-//
-//    private static void printAddedTask(Task task) {
-//        System.out.println("____________________________________________________________");
-//        System.out.println("Got it. I've added this task:");
-//        System.out.println("  " + task);
-//        System.out.println("Now you have " + count + " tasks in the list.");
-//        System.out.println("____________________________________________________________");
-//    }
 }

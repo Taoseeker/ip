@@ -9,9 +9,15 @@ import java.time.LocalDateTime;
 public class Parser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    TaskList taskList;
+    private final TaskList taskList;
+    private boolean isExit;
     public Parser(TaskList taskList) {
         this.taskList = taskList;
+        this.isExit = false;
+    }
+
+    public boolean isExit() {
+        return isExit;
     }
 
     public void parseCommand(String input) {
@@ -34,12 +40,44 @@ public class Parser {
                 case "event":
                     parseEvent(remainingInput);
                     break;
+                case "bye" :
+                    isExit = true;
+                    break;
+                case "list":
+                    taskList.printList();
+                    break;
+                case "mark":
+                    taskList.markAsDone(remainingInput);
+                    break;
+                case "unmark":
+                    taskList.markAsNotDone(remainingInput);
+                    break;
+                case "delete":
+                    taskList.delete(remainingInput);
+                    break;
+                case "help":
+                    printCommandList();
+                    break;
                 default:
-                    throw new IllegalArgumentException("Unknown command type" + commandType);
+                    System.out.println("Unknown command type" + commandType);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void printCommandList() {
+        System.out.println("____________________________________________________________");
+        System.out.println("Here are the available commands:");
+        System.out.println("1. list - Show all tasks");
+        System.out.println("2. todo <description> - Add a Todo task");
+        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
+        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
+        System.out.println("5. mark <task number> - Mark a task as done");
+        System.out.println("6. unmark <task number> - Mark a task as not done yet");
+        System.out.println("7. help - Show the command list");
+        System.out.println("8. bye - Exit the program");
+        System.out.println("____________________________________________________________");
     }
 
     private void parseTodo(String input) {
