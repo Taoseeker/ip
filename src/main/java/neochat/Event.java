@@ -1,10 +1,12 @@
 package neochat;
 
-public class Event extends Task {
-    private String from;
-    private String to;
+import java.time.LocalDateTime;
 
-    public Event(String description, String from, String to) throws EmptyTaskDescriptionException {
+public class Event extends Task {
+    private LocalDateTime  from;
+    private LocalDateTime to;
+
+    public Event(String description, LocalDateTime  from, LocalDateTime  to) throws EmptyTaskDescriptionException {
         super(description);
         this.from = from;
         this.to = to;
