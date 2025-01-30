@@ -2,11 +2,14 @@ package neochat;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Deadline extends Task {
     private LocalDateTime by;
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter outputFormatter =
+            DateTimeFormatter.ofPattern("MMM-dd-yyyy", Locale.ENGLISH);
 
     public Deadline(String description, LocalDateTime by) throws EmptyTaskDescriptionException {
         super(description);
@@ -15,7 +18,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D][" + getStatusIcon() + "] " + description + " (by: " + by + ")";
+        return "[D][" + getStatusIcon() + "] " + description + " (by: " + by.format(outputFormatter) + ")";
     }
 
     @Override
