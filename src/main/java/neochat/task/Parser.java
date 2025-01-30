@@ -12,6 +12,12 @@ public class Parser {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private final TaskList taskList;
     private boolean isExit;
+
+    /**
+     * Constructs a Parser with a reference to the application's TaskList.
+     *
+     * @param taskList The TaskList instance to operate on
+     */
     public Parser(TaskList taskList) {
         this.taskList = taskList;
         this.isExit = false;
@@ -84,6 +90,12 @@ public class Parser {
         System.out.println("____________________________________________________________");
     }
 
+    /**
+     * Parses a Todo command and adds the task.
+     *
+     * @param input Command arguments after "todo" keyword
+     * @throws EmptyTaskDescriptionException If description is empty
+     */
     private void parseTodo(String input) {
         try {
             this.taskList.addTask(new Todo(input.trim()));
@@ -123,6 +135,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Validates and converts a datetime string to LocalDateTime.
+     *
+     * @param dateTimeStr Datetime string in "yyyy-MM-dd HH:mm" format
+     * @return Parsed LocalDateTime object
+     * @throws IllegalArgumentException If format is invalid
+     */
     static LocalDateTime parseDateTime(String dateTimeStr) {
         try {
             return LocalDateTime.parse(dateTimeStr, DATE_TIME_FORMATTER);

@@ -9,6 +9,15 @@ import java.util.*;
 import neochat.task.*;
 import neochat.task.taskexception.EmptyTaskDescriptionException;
 
+/**
+ * Represents a list of tasks with operations to manage tasks persistently.
+ * This class handles task storage, loading from/saving to files, and various task operations
+ * including addition, deletion, status marking, and listing.
+ * <p>
+ * Tasks are stored in a text file and loaded automatically on initialization.
+ * Supports three task types: Todo, Deadline, and Event with datetime validation.
+ * </p>
+ */
 public class TaskList {
     private static int count = 0;
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -17,20 +26,33 @@ public class TaskList {
     private final File savedListFile;
 
 
+    /**
+     * Constructs a TaskList and initializes it by loading tasks from the saved file.
+     * Creates the file and necessary directories if they don't exist.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>(100);
         this.savedListFile = new File("src/data/savedList.txt");
         loadTask();
     }
 
+    /**
+     * Saves current tasks to file and performs cleanup when exiting the application.
+     */
     public void quit() {
         saveTasks();
     }
 
+    /**
+     * Adds a task to the list and updates the task count.
+     *
+     * @param task The task object to be added (Todo/Deadline/Event)
+     */
     public void addTask(Task task) {
         tasks.add(task);
         count++;
         printAddedTask(task);
+
     }
 
 
@@ -62,6 +84,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Parses a string from the save file into a Task object.
+     *
+     * @param line The saved task string in format "[Type] | [Status] | [Description] | [DateTime]"
+     * @return Reconstructed Task object, or null if format is invalid
+     */
     private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -114,6 +142,10 @@ public class TaskList {
 
     }
 
+    /**
+     * Saves current task list to the storage file.
+     * Uses each task's {@code toFileString()} method for serialization.
+     */
     private void saveTasks() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(savedListFile))) {
             for (Task task : tasks) {
@@ -134,7 +166,10 @@ public class TaskList {
         }
     }
 
-
+    /**
+     * Displays all tasks in the list with their indexes.
+     * Shows "Empty task list!" if no tasks exist.
+     */
     public void printList() {
         if (count == 0) {
             System.out.println("Empty task list!");
@@ -146,6 +181,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks a task as done based on its position in the list.
+     *
+     * @param input String containing the task number (1-based index)
+     * @throws NumberFormatException If input is not a valid integer
+     * @throws IndexOutOfBoundsException If task number is out of valid range
+     */
     public void markAsDone(String input) {
         try {
             int taskIndex = Integer.parseInt(input) - 1;
@@ -165,6 +207,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks a task as not done based on its position in the list.
+     *
+     * @param input String containing the task number (1-based index)
+     * @throws NumberFormatException If input is not a valid integer
+     * @throws IndexOutOfBoundsException If task number is out of valid range
+     */
     public void markAsNotDone(String input) {
         try {
             int taskIndex = Integer.parseInt(input) - 1;
@@ -184,6 +233,13 @@ public class TaskList {
         }
     }
 
+    /**
+     * Deletes a task from the list based on its position.
+     *
+     * @param input String containing the task number (1-based index)
+     * @throws NumberFormatException If input is not a valid integer
+     * @throws IndexOutOfBoundsException If task number is out of valid range
+     */
     public void delete(String input) {
         try {
             int taskIndex = Integer.parseInt(input) - 1;
@@ -205,7 +261,7 @@ public class TaskList {
         }
     }
 
-    public void printAddedTask(Task task) {
+    private void printAddedTask(Task task) {
         System.out.println("____________________________________________________________");
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
