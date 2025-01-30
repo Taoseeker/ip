@@ -2,10 +2,11 @@ package neochat.task.tasklist;
 
 import java.util.*;
 import java.io.*;
-import neochat.*;
+import neochat.task.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
+import neochat.task.taskexception.EmptyTaskDescriptionException;
 
 public class TaskList {
     private final ArrayList<Task> tasks;

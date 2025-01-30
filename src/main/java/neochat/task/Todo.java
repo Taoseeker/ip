@@ -1,4 +1,5 @@
-package neochat;
+package neochat.task;
+import neochat.task.taskexception.EmptyTaskDescriptionException;
 
 public class Todo extends Task {
     public Todo(String description) throws EmptyTaskDescriptionException {

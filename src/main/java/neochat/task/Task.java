@@ -1,4 +1,5 @@
-package neochat;
+package neochat.task;
+import neochat.task.taskexception.EmptyTaskDescriptionException;
 
 public abstract class Task {
     protected String description;
