@@ -120,7 +120,7 @@ public class Parser {
         }
     }
 
-    private static LocalDateTime parseDateTime(String dateTimeStr) {
+    static LocalDateTime parseDateTime(String dateTimeStr) {
         try {
             return LocalDateTime.parse(dateTimeStr, DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
