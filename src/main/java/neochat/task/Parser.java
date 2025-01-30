@@ -59,6 +59,13 @@ public class Parser {
                 case "help":
                     printCommandList();
                     break;
+                case "find":
+                    if (remainingInput.isEmpty()) {
+                        System.out.println("Please provide a keyword to search.");
+                    } else {
+                        taskList.findTasks(remainingInput);
+                    }
+                    break;
                 default:
                     System.out.println("Unknown command type" + commandType);
             }
@@ -78,6 +85,7 @@ public class Parser {
         System.out.println("6. unmark <task number> - Mark a task as not done yet");
         System.out.println("7. help - Show the command list");
         System.out.println("8. bye - Exit the program");
+        System.out.println("9. find <keyword> - Search tasks by keyword");
         System.out.println("____________________________________________________________");
     }
 

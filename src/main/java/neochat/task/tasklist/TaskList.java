@@ -114,7 +114,8 @@ public class TaskList {
         try {
             return LocalDateTime.parse(dateTimeStr, DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("时间格式错误，应为: yyyy-MM-dd HH:mm");
+            throw new IllegalArgumentException("Invalid time format, the correct format should be "
+                    + ": yyyy-MM-dd HH:mm");
         }
     }
 
@@ -195,5 +196,29 @@ public class TaskList {
         System.out.println("  " + task);
         System.out.println("Now you have " + count + " tasks in the list.");
         System.out.println("____________________________________________________________");
+    }
+
+    public void findTasks(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+
+        for (Task task : tasks) {
+            if (task.contains(lowerKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            System.out.println("____________________________________________________________");
+            System.out.println("No tasks found with keyword: \"" + keyword + "\"");
+            System.out.println("____________________________________________________________");
+        } else {
+            System.out.println("____________________________________________________________");
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println((i + 1) + ": " + matchingTasks.get(i));
+            }
+            System.out.println("____________________________________________________________");
+        }
     }
 }
