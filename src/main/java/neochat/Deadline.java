@@ -1,9 +1,14 @@
 package neochat;
 
-public class Deadline extends Task {
-    private String by;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String description, String by) throws EmptyTaskDescriptionException {
+public class Deadline extends Task {
+    private LocalDateTime by;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    public Deadline(String description, LocalDateTime by) throws EmptyTaskDescriptionException {
         super(description);
         this.by = by;
     }
@@ -15,6 +20,6 @@ public class Deadline extends Task {
 
     @Override
     public String toFileString() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by.format(DATE_TIME_FORMATTER);
     }
 }

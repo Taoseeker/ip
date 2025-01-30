@@ -1,10 +1,15 @@
 package neochat;
 
-public class Event extends Task {
-    private String from;
-    private String to;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Event(String description, String from, String to) throws EmptyTaskDescriptionException {
+public class Event extends Task {
+    private LocalDateTime from;
+    private LocalDateTime to;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    public Event(String description, LocalDateTime  from, LocalDateTime to) throws EmptyTaskDescriptionException {
         super(description);
         this.from = from;
         this.to = to;
@@ -17,6 +22,7 @@ public class Event extends Task {
 
     @Override
     public String toFileString() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from.format(DATE_TIME_FORMATTER) + " | "
+                + to.format(DATE_TIME_FORMATTER);
     }
 }
