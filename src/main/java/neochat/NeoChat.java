@@ -1,7 +1,7 @@
 package neochat;
 
+import neochat.task.Parser;
 import neochat.task.tasklist.TaskList;
-
 import java.util.*;
 
 public class NeoChat {
@@ -14,7 +14,7 @@ public class NeoChat {
     private static final String LIST = "list";
     private static final String HELP = "help";
     private static final String DELETE = "delete";
-    private static int count = 0;
+    private static final Parser parser = new Parser(taskList);
 
 
     public static void main(String[] args) {
@@ -33,12 +33,8 @@ public class NeoChat {
                 break;
             } else if (LIST.equals(input)) {
                 taskList.printList();
-            } else if (input.startsWith("todo ")) {
-                taskList.addTodo(input.substring(5));
-            } else if (input.startsWith("deadline ")) {
-                taskList.addDeadline(input.substring(9));
-            } else if (input.startsWith("event ")) {
-                taskList.addEvent(input.substring(6));
+            } else if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
+                parser.parseCommand(input);
             } else if (input.startsWith(MARK)) {
                 taskList.markAsDone(input.substring(5));
             } else if (input.startsWith(UNMARK)) {
@@ -58,9 +54,9 @@ public class NeoChat {
         System.out.println("____________________________________________________________");
         System.out.println("Here are the available commands:");
         System.out.println("1. list - Show all tasks");
-        System.out.println("2. todo <description> - Add a neochat.Todo task");
-        System.out.println("3. deadline <description> /by <time> - Add a neochat.Deadline task");
-        System.out.println("4. event <description> /from <start> /to <end> - Add an neochat.Event task");
+        System.out.println("2. todo <description> - Add a Todo task");
+        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
+        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
         System.out.println("5. mark <task number> - Mark a task as done");
         System.out.println("6. unmark <task number> - Mark a task as not done yet");
         System.out.println("7. help - Show the command list");

@@ -3,11 +3,16 @@ package neochat.task.tasklist;
 import java.util.*;
 import java.io.*;
 import neochat.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 
 public class TaskList {
     private final ArrayList<Task> tasks;
     private final File savedListFile;
     private static int count = 0;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public TaskList() {
         this.tasks = new ArrayList<>(100);
@@ -19,22 +24,13 @@ public class TaskList {
         saveTasks();
     }
 
-    public void printTask() {
-        try {
-            Scanner s = new Scanner(this.savedListFile); // create a Scanner using the File as the source
-            while (s.hasNext()) {
-                System.out.println(s.nextLine());
-            }
-            s.close();
-        } catch (FileNotFoundException e) {
-            File parentDir = savedListFile.getParentFile();
-            if (parentDir == null || !parentDir.exists()) {
-                System.out.println("The file directory does not exist.");
-            } else if (!savedListFile.exists()) {
-                System.out.println("The saved list file does not exist.");
-            }
-        }
+    public  void addTask(Task task) {
+        tasks.add(task);
+        count++;
+        printAddedTask(task);
+
     }
+
 
     private void loadTask() {
         try {
@@ -78,12 +74,15 @@ public class TaskList {
                     return todo;
                 case "D":
                     if (parts.length < 4) return null;
-                    Deadline deadline = new Deadline(description, parts[3]);
+                    LocalDateTime by = parseDateTime(parts[3].trim());
+                    Deadline deadline = new Deadline(description, by);
                     if (isDone) deadline.markDone();
                     return deadline;
                 case "E":
                     if (parts.length < 5) return null;
-                    Event event = new Event(description, parts[3], parts[4]);
+                    LocalDateTime from = parseDateTime(parts[3].trim());
+                    LocalDateTime to = parseDateTime(parts[4].trim());
+                    Event event = new Event(description, from, to);
                     if (isDone) event.markDone();
                     return event;
                 default:
@@ -107,6 +106,14 @@ public class TaskList {
             }
         } catch (IOException e) {
             System.out.println("Fail to save tasks" + e.getMessage());
+        }
+    }
+
+    private static LocalDateTime parseDateTime(String dateTimeStr) {
+        try {
+            return LocalDateTime.parse(dateTimeStr, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("时间格式错误，应为: yyyy-MM-dd HH:mm");
         }
     }
 
@@ -178,53 +185,6 @@ public class TaskList {
             System.out.println("Invalid input. Please provide a valid task number.");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
-        }
-    }
-
-    public void addTodo(String description) {
-        try {
-            Todo todo = new Todo(description);
-            count++;
-            tasks.add(todo);
-            printAddedTask(todo);
-        } catch (EmptyTaskDescriptionException e) {
-            System.out.println("Invalid task description. Please provide a valid description.");
-        }
-
-    }
-
-    public void addDeadline(String userInput) {
-        String[] tokens = userInput.split(" /by ", 2);
-        if (tokens.length < 2) {
-            System.out.println("Invalid command parameters. Please try again.");
-        } else {
-            try {
-                Deadline deadline = new Deadline(tokens[0], tokens[1]);
-                count++;
-                tasks.add(deadline);
-                printAddedTask(deadline);
-            } catch (EmptyTaskDescriptionException e) {
-                System.out.println("Invalid task description. Please provide a valid description.");
-            }
-
-
-        }
-    }
-
-    public void addEvent(String userInput) {
-        String[] parts = userInput.split(" /from | /to ", 3);
-        if (parts.length < 3) {
-            System.out.println("Invalid command parameters. Please try again.");
-        } else {
-            try {
-                Event event = new Event(parts[0], parts[1], parts[2]);
-                count++;
-                tasks.add(event);
-                printAddedTask(event);
-            } catch (EmptyTaskDescriptionException e) {
-                System.out.println("Invalid task description. Please provide a valid description.");
-            }
-
         }
     }
 
