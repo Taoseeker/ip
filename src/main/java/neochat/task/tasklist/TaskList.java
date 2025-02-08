@@ -48,10 +48,10 @@ public class TaskList {
      *
      * @param task The task object to be added (Todo/Deadline/Event)
      */
-    public void addTask(Task task) {
+    public String addTask(Task task) {
         tasks.add(task);
         count++;
-        printAddedTask(task);
+        return printAddedTask(task);
 
     }
 
@@ -170,14 +170,16 @@ public class TaskList {
      * Displays all tasks in the list with their indexes.
      * Shows "Empty task list!" if no tasks exist.
      */
-    public void printList() {
+    public String printList() {
         if (count == 0) {
-            System.out.println("Empty task list!");
+            return "Empty task list!";
         } else {
+            String s = "";
             for (int i = 0; i < count; i++) {
                 Task task = tasks.get(i);
-                System.out.println((i + 1) + ": " + task.toString());
+                s = s + (i + 1) + ": " + task.toString() + "\n";
             }
+            return s;
         }
     }
 
@@ -188,7 +190,8 @@ public class TaskList {
      * @throws NumberFormatException If input is not a valid integer
      * @throws IndexOutOfBoundsException If task number is out of valid range
      */
-    public void markAsDone(String input) {
+    public String markAsDone(String input) {
+        String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
             if (taskIndex < 0 || taskIndex >= count) {
@@ -196,15 +199,17 @@ public class TaskList {
             }
             Task task = tasks.get(taskIndex);
             task.markDone();
-            System.out.println("____________________________________________________________");
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println("  " + task);
-            System.out.println("____________________________________________________________");
+            s = s + "Nice! I've marked this task as done:" + "\n" + "  " + task;
+//            System.out.println("____________________________________________________________");
+//            System.out.println("Nice! I've marked this task as done:");
+//            System.out.println("  " + task);
+//            System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please provide a valid task number.");
+            s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
+            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
         }
+        return s;
     }
 
     /**
@@ -214,7 +219,8 @@ public class TaskList {
      * @throws NumberFormatException If input is not a valid integer
      * @throws IndexOutOfBoundsException If task number is out of valid range
      */
-    public void markAsNotDone(String input) {
+    public String markAsNotDone(String input) {
+        String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
             if (taskIndex < 0 || taskIndex >= count) {
@@ -222,15 +228,17 @@ public class TaskList {
             }
             Task task = tasks.get(taskIndex);
             task.markNotDone();
-            System.out.println("____________________________________________________________");
-            System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println("  " + task);
-            System.out.println("____________________________________________________________");
+            s = "OK, I've marked this task as not done yet:" + "\n" + "  " + task;
+//            System.out.println("____________________________________________________________");
+//            System.out.println("OK, I've marked this task as not done yet:");
+//            System.out.println("  " + task);
+//            System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please provide a valid task number.");
+            s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
+            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
         }
+        return s;
     }
 
     /**
@@ -240,7 +248,8 @@ public class TaskList {
      * @throws NumberFormatException If input is not a valid integer
      * @throws IndexOutOfBoundsException If task number is out of valid range
      */
-    public void delete(String input) {
+    public String delete(String input) {
+        String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
             if (taskIndex < 0 || taskIndex >= count) {
@@ -249,27 +258,28 @@ public class TaskList {
             Task task = tasks.get(taskIndex);
             tasks.remove(taskIndex);
             count--;
-            System.out.println("____________________________________________________________");
-            System.out.println("Noted. I've removed this task:");
-            System.out.println("  " + task);
-            System.out.println("Now you have " + count + " tasks in the list.");
-            System.out.println("____________________________________________________________");
+            s = "Noted. I've removed this task:" + "\n" + "  " + task + "\n"
+                + "Now you have " + count + " tasks in the list.";
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please provide a valid task number.");
+            s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Invalid task number. Please provide a number between 1 and " + count + ".");
+            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
         }
+        return s;
     }
 
-    private void printAddedTask(Task task) {
-        System.out.println("____________________________________________________________");
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + count + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+    private String printAddedTask(Task task) {
+//        System.out.println("____________________________________________________________");
+        return "Got it. I've added this task:" + "\n  " + task + "\n"
+                + "Now you have " + count + " tasks in the list.";
+//        System.out.println("Got it. I've added this task:");
+//        System.out.println("  " + task);
+//        System.out.println("Now you have " + count + " tasks in the list.");
+//        System.out.println("____________________________________________________________");
     }
 
-    public void findTasks(String keyword) {
+    public String findTasks(String keyword) {
+        String s = "";
         List<Task> matchingTasks = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase();
 
@@ -280,16 +290,13 @@ public class TaskList {
         }
 
         if (matchingTasks.isEmpty()) {
-            System.out.println("____________________________________________________________");
-            System.out.println("No tasks found with keyword: \"" + keyword + "\"");
-            System.out.println("____________________________________________________________");
+            s = "No tasks found with keyword: \"" + keyword + "\"";
         } else {
-            System.out.println("____________________________________________________________");
-            System.out.println("Here are the matching tasks in your list:");
+            s = "Here are the matching tasks in your list:";
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println((i + 1) + ": " + matchingTasks.get(i));
+                s += (i + 1) + ": " + matchingTasks.get(i);
             }
-            System.out.println("____________________________________________________________");
         }
+        return s;
     }
 }

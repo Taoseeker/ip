@@ -25,9 +25,7 @@ public class NeoChat {
      *
      * @param args Command-line arguments (not used in this application)
      */
-    public static void main(String[] args) {
-        run();
-    }
+
 
     /**
      * Manages the main execution loop of the application.
@@ -39,22 +37,32 @@ public class NeoChat {
      * The loop continues until an exit command is parsed by the {@link Parser}.
      * </p>
      */
-    private static void run() {
-        ui.greeting();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                parser.parseCommand(fullCommand);
-                if (parser.isExit()) {
-                    isExit = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                ui.showLine();
-            }
+//    private static void run() {
+//        ui.greeting();
+//        boolean isExit = false;
+//        while (!isExit) {
+//            try {
+//                String fullCommand = ui.readCommand();
+//                parser.parseCommand(fullCommand);
+//                if (parser.isExit()) {
+//                    isExit = true;
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                ui.showLine();
+//            }
+//        }
+//        taskList.quit();
+//    }
+
+    public String getResponse(String userInput) {
+        String s = "";
+        try {
+            s = parser.parseCommand(userInput);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        taskList.quit();
+        return s;
     }
 }

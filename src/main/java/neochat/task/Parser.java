@@ -27,11 +27,11 @@ public class Parser {
         return isExit;
     }
 
-    public void parseCommand(String input) {
+    public String parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("The input is empty");
         }
-
+        String s = "";
         String[] tokens = input.split("\\s+", 2);
         String commandType = tokens[0].toLowerCase();
         String remainingInput = (tokens.length > 1) ? tokens[1] : "";
@@ -39,55 +39,67 @@ public class Parser {
         try {
             switch (commandType) {
             case "todo":
-                parseTodo(remainingInput);
+                s = parseTodo(remainingInput);
                 break;
             case "deadline":
-                parseDeadline(remainingInput);
+                s = parseDeadline(remainingInput);
                 break;
             case "event":
-                parseEvent(remainingInput);
+                s = parseEvent(remainingInput);
                 break;
             case "bye" :
                 isExit = true;
+                s = "bye";
                 break;
             case "list":
-                taskList.printList();
+                s = taskList.printList();
                 break;
             case "mark":
-                taskList.markAsDone(remainingInput);
+                s = taskList.markAsDone(remainingInput);
                 break;
             case "unmark":
-                taskList.markAsNotDone(remainingInput);
+                s = taskList.markAsNotDone(remainingInput);
                 break;
             case "delete":
-                taskList.delete(remainingInput);
+                s = taskList.delete(remainingInput);
                 break;
             case "help":
-                printCommandList();
+                s = printCommandList();
                 break;
             case "find":
-                taskList.findTasks(remainingInput);
+                s = taskList.findTasks(remainingInput);
                 break;
             default:
-                System.out.println("Unknown command type" + commandType);
+                s = "Unknown command type" + commandType + "\n"
+                        + "key in 'help' for more information.'";
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+        return s;
     }
 
-    private static void printCommandList() {
-        System.out.println("____________________________________________________________");
-        System.out.println("Here are the available commands:");
-        System.out.println("1. list - Show all tasks");
-        System.out.println("2. todo <description> - Add a Todo task");
-        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
-        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
-        System.out.println("5. mark <task number> - Mark a task as done");
-        System.out.println("6. unmark <task number> - Mark a task as not done yet");
-        System.out.println("7. help - Show the command list");
-        System.out.println("8. bye - Exit the program");
-        System.out.println("____________________________________________________________");
+    private static String printCommandList() {
+//        System.out.println("____________________________________________________________");
+//        System.out.println("Here are the available commands:");
+//        System.out.println("1. list - Show all tasks");
+//        System.out.println("2. todo <description> - Add a Todo task");
+//        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
+//        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
+//        System.out.println("5. mark <task number> - Mark a task as done");
+//        System.out.println("6. unmark <task number> - Mark a task as not done yet");
+//        System.out.println("7. help - Show the command list");
+//        System.out.println("8. bye - Exit the program");
+//        System.out.println("____________________________________________________________");
+        return "Here are the available commands:" + "\n"
+                + "1. list - Show all tasks" + "\n"
+                + "2. todo <description> - Add a Todo task" + "\n"
+                + "3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task" + "\n"
+                + "4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task" + "\n"
+                + "5. mark <task number> - Mark a task as done" + "\n"
+                + "6. unmark <task number> - Mark a task as not done" + "\n"
+                + "7. help - Show the command list" + "\n"
+                + "8. bye - Exit the program";
     }
 
     /**
@@ -96,15 +108,18 @@ public class Parser {
      * @param input Command arguments after "todo" keyword
      * @throws EmptyTaskDescriptionException If description is empty
      */
-    private void parseTodo(String input) {
+    private String parseTodo(String input) {
+        String s = "";
         try {
-            this.taskList.addTask(new Todo(input.trim()));
+            s =  this.taskList.addTask(new Todo(input.trim()));
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        return s;
     }
 
-    private void parseDeadline(String input) {
+    private String parseDeadline(String input) {
+        String s = "";
         String[] parts = input.split(" /by ", 2);
         if (parts.length < 2) {
             throw new IllegalArgumentException("Deadline format error，the correct format should be" +
@@ -113,13 +128,15 @@ public class Parser {
         String description = parts[0].trim();
         LocalDateTime by = parseDateTime(parts[1].trim());
         try {
-            this.taskList.addTask(new Deadline(description, by));
+            s = this.taskList.addTask(new Deadline(description, by));
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        return s;
     }
 
-    private void parseEvent(String input) {
+    private String parseEvent(String input) {
+        String s = "";
         String[] parts = input.split(" /from | /to ", 3);
         if (parts.length < 3) {
             throw new IllegalArgumentException("Event format error，the correct format should be" +
@@ -129,10 +146,11 @@ public class Parser {
         LocalDateTime from = parseDateTime(parts[1].trim());
         LocalDateTime to = parseDateTime(parts[2].trim());
         try {
-            this.taskList.addTask(new Event(description, from, to));
+            s = this.taskList.addTask(new Event(description, from, to));
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        return s;
     }
 
     /**
