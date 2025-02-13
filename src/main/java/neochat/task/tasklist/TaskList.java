@@ -105,7 +105,7 @@ public class TaskList {
             case "T":
                 Todo todo = new Todo(description);
                 if (isDone) {
-                    todo.markDone();
+                    todo.markAsDone();
                 }
                 return todo;
             case "D":
@@ -115,7 +115,7 @@ public class TaskList {
                 LocalDateTime by = parseDateTime(parts[3].trim());
                 Deadline deadline = new Deadline(description, by);
                 if (isDone) {
-                    deadline.markDone();
+                    deadline.markAsDone();
                 }
                 return deadline;
             case "E":
@@ -126,7 +126,7 @@ public class TaskList {
                 LocalDateTime to = parseDateTime(parts[4].trim());
                 Event event = new Event(description, from, to);
                 if (isDone) {
-                    event.markDone();
+                    event.markAsDone();
                 }
                 return event;
             default:
@@ -198,12 +198,8 @@ public class TaskList {
                 throw new IndexOutOfBoundsException();
             }
             Task task = tasks.get(taskIndex);
-            task.markDone();
+            task.markAsDone();
             s = s + "Nice! I've marked this task as done:" + "\n" + "  " + task;
-//            System.out.println("____________________________________________________________");
-//            System.out.println("Nice! I've marked this task as done:");
-//            System.out.println("  " + task);
-//            System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
@@ -227,12 +223,8 @@ public class TaskList {
                 throw new IndexOutOfBoundsException();
             }
             Task task = tasks.get(taskIndex);
-            task.markNotDone();
+            task.markAsNotDone();
             s = "OK, I've marked this task as not done yet:" + "\n" + "  " + task;
-//            System.out.println("____________________________________________________________");
-//            System.out.println("OK, I've marked this task as not done yet:");
-//            System.out.println("  " + task);
-//            System.out.println("____________________________________________________________");
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
@@ -269,13 +261,8 @@ public class TaskList {
     }
 
     private String printAddedTask(Task task) {
-//        System.out.println("____________________________________________________________");
         return "Got it. I've added this task:" + "\n  " + task + "\n"
                 + "Now you have " + count + " tasks in the list.";
-//        System.out.println("Got it. I've added this task:");
-//        System.out.println("  " + task);
-//        System.out.println("Now you have " + count + " tasks in the list.");
-//        System.out.println("____________________________________________________________");
     }
 
     public String findTasks(String keyword) {

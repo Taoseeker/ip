@@ -17,11 +17,11 @@ public abstract class Task {
         return description.toLowerCase().contains(keyword);
     }
 
-    public void markDone() {
+    public void markAsDone() {
         this.isDone = true;
     }
 
-    public void markNotDone() {
+    public void markAsNotDone() {
         this.isDone = false;
     }
 
