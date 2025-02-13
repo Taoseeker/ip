@@ -72,6 +72,7 @@ public class TaskList {
                 String line = scanner.nextLine().trim();
                 if (!line.isEmpty()) {
                     Task task = parseTask(line);
+                    assert task != null : "Task could not be parsed";
                     if (task != null) {
                         tasks.add(task);
                         count++;
