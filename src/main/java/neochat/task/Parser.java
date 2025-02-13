@@ -41,7 +41,10 @@ public class Parser {
             case "event":
                 s = parseEvent(remainingInput);
                 break;
+                case "edit":
+                s = editTask(remainingInput);
             case "bye" :
+                taskList.saveTasks();
                 s = "bye";
                 break;
             case "list":
@@ -55,6 +58,13 @@ public class Parser {
                 break;
             case "delete":
                 s = taskList.delete(remainingInput);
+                break;
+            case "archive":
+                s = taskList.archive(remainingInput);
+                break;
+            case "loadarchive":
+                taskList.loadArchivedTasks();
+                s = "successfully loaded archived tasks!";
                 break;
             case "help":
                 s = printCommandList();
@@ -84,6 +94,10 @@ public class Parser {
                 + "6. unmark <task number> - Mark a task as not done" + "\n"
                 + "7. help - Show the command list" + "\n"
                 + "8. bye - Exit the program";
+    }
+
+    private String editTask(String remainingInput) {
+        return "";
     }
 
     /**

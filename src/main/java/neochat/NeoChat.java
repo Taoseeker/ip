@@ -37,4 +37,8 @@ public class NeoChat {
         }
         return s;
     }
+
+    public void save() {
+        this.taskList.saveTasks();
+    }
 }

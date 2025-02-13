@@ -24,7 +24,7 @@ public class TaskList {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private final ArrayList<Task> tasks;
     private final File savedListFile;
-
+    private final File archivedTaskFile;
 
     /**
      * Constructs a TaskList and initializes it by loading tasks from the saved file.
@@ -33,6 +33,7 @@ public class TaskList {
     public TaskList() {
         this.tasks = new ArrayList<>(100);
         this.savedListFile = new File("src/data/savedList.txt");
+        this.archivedTaskFile = new File("src/data/archivedTaskList.txt");
         loadTask();
     }
 
@@ -82,6 +83,37 @@ public class TaskList {
             scanner.close();
         } catch (IOException e) {
             System.out.println("Fail to load save list:" + e.getMessage());
+        }
+    }
+
+    public void loadArchivedTasks() {
+        try {
+            if (!archivedTaskFile.exists()) {
+                File parentDir = archivedTaskFile.getParentFile();
+                if (parentDir != null) {
+                    parentDir.mkdirs();
+                }
+                archivedTaskFile.createNewFile();
+                return;
+            }
+
+            Scanner scanner = new Scanner(archivedTaskFile);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (!line.isEmpty()) {
+                    Task task = parseTask(line);
+                    assert task != null : "Task could not be parsed";
+                    if (task != null) {
+                        tasks.add(task);
+                        count++;
+                    }
+                }
+            }
+            scanner.close();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(archivedTaskFile));
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Fail to load archived list:" + e.getMessage());
         }
     }
 
@@ -147,14 +179,44 @@ public class TaskList {
      * Saves current task list to the storage file.
      * Uses each task's {@code toFileString()} method for serialization.
      */
-    private void saveTasks() {
+    public void saveTasks() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(savedListFile))) {
             for (Task task : tasks) {
                 writer.write(task.toFileString());
                 writer.newLine();
             }
+            writer.close();
         } catch (IOException e) {
             System.out.println("Fail to save tasks" + e.getMessage());
+        }
+    }
+
+    public String archive(String input) {
+        String s = "";
+        try {
+            int taskIndex = Integer.parseInt(input) - 1;
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+            Task task = tasks.get(taskIndex);
+            archiveTask(taskIndex);
+            s = "Noted. I've archived this task:" + "\n" + "  " + task;
+        } catch (NumberFormatException e) {
+            s = "Invalid input. Please provide a valid task number.";
+        } catch (IndexOutOfBoundsException e) {
+            s = "Invalid task number. Please provide a number between 1 and " + tasks.size() + ".";
+        }
+        return s;
+    }
+
+    private void archiveTask(int index) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivedTaskFile, true))) {
+            Task task = tasks.get(index);
+            tasks.remove(index);
+            writer.write(task.toFileString());
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Fail to archive tasks" + e.getMessage());
         }
     }
 
@@ -172,11 +234,11 @@ public class TaskList {
      * Shows "Empty task list!" if no tasks exist.
      */
     public String printList() {
-        if (count == 0) {
+        if (tasks.isEmpty()) {
             return "Empty task list!";
         } else {
             String s = "";
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < tasks.size(); i++) {
                 Task task = tasks.get(i);
                 s = s + (i + 1) + ": " + task.toString() + "\n";
             }
@@ -195,7 +257,7 @@ public class TaskList {
         String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
-            if (taskIndex < 0 || taskIndex >= count) {
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new IndexOutOfBoundsException();
             }
             Task task = tasks.get(taskIndex);
@@ -204,7 +266,7 @@ public class TaskList {
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
+            s = "Invalid task number. Please provide a number between 1 and " + tasks.size() + ".";
         }
         return s;
     }
@@ -220,7 +282,7 @@ public class TaskList {
         String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
-            if (taskIndex < 0 || taskIndex >= count) {
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new IndexOutOfBoundsException();
             }
             Task task = tasks.get(taskIndex);
@@ -229,7 +291,7 @@ public class TaskList {
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
+            s = "Invalid task number. Please provide a number between 1 and " + tasks.size() + ".";
         }
         return s;
     }
@@ -245,7 +307,7 @@ public class TaskList {
         String s = "";
         try {
             int taskIndex = Integer.parseInt(input) - 1;
-            if (taskIndex < 0 || taskIndex >= count) {
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
                 throw new IndexOutOfBoundsException();
             }
             Task task = tasks.get(taskIndex);
@@ -256,14 +318,14 @@ public class TaskList {
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
         } catch (IndexOutOfBoundsException e) {
-            s = "Invalid task number. Please provide a number between 1 and " + count + ".";
+            s = "Invalid task number. Please provide a number between 1 and " + tasks.size() + ".";
         }
         return s;
     }
 
     private String printAddedTask(Task task) {
         return "Got it. I've added this task:" + "\n  " + task + "\n"
-                + "Now you have " + count + " tasks in the list.";
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 
     public String findTasks(String keyword) {
