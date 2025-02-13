@@ -69,6 +69,8 @@ public class Parser {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+        assert s != null : "parseCommand() should not return null";
+        assert !s.isEmpty() : "parseCommand() should not return empty string";
         return s;
     }
 
@@ -97,6 +99,7 @@ public class Parser {
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        assert !s.isEmpty() : "TodoTask description is empty";
         return s;
     }
 
@@ -107,6 +110,7 @@ public class Parser {
             throw new IllegalArgumentException("Deadline format error，the correct format should be" +
                     " deadline <description> /by yyyy-MM-dd HH:mm");
         }
+        assert parts.length >= 2 : "Deadline format error";
         String description = parts[0].trim();
         LocalDateTime by = parseDateTime(parts[1].trim());
         try {
@@ -114,6 +118,7 @@ public class Parser {
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        assert !s.isEmpty() : "DeadlineTask description is empty";
         return s;
     }
 
@@ -124,6 +129,7 @@ public class Parser {
             throw new IllegalArgumentException("Event format error，the correct format should be" +
                     " event <description> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm");
         }
+        assert parts.length >= 3 : "Event format error";
         String description = parts[0].trim();
         LocalDateTime from = parseDateTime(parts[1].trim());
         LocalDateTime to = parseDateTime(parts[2].trim());
@@ -132,6 +138,7 @@ public class Parser {
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
+        assert !s.isEmpty() : "EventTask description is empty";
         return s;
     }
 
