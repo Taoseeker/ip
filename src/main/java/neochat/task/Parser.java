@@ -11,7 +11,6 @@ public class Parser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private final TaskList taskList;
-    private boolean isExit;
 
     /**
      * Constructs a Parser with a reference to the application's TaskList.
@@ -20,18 +19,13 @@ public class Parser {
      */
     public Parser(TaskList taskList) {
         this.taskList = taskList;
-        this.isExit = false;
-    }
-
-    public boolean isExit() {
-        return isExit;
     }
 
     public String parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("The input is empty");
         }
-        String s = "";
+        String s = ""; // a dummy variable to hold returned string
         String[] tokens = input.split("\\s+", 2);
         String commandType = tokens[0].toLowerCase();
         String remainingInput = (tokens.length > 1) ? tokens[1] : "";
@@ -48,7 +42,6 @@ public class Parser {
                 s = parseEvent(remainingInput);
                 break;
             case "bye" :
-                isExit = true;
                 s = "bye";
                 break;
             case "list":
@@ -80,17 +73,6 @@ public class Parser {
     }
 
     private static String printCommandList() {
-//        System.out.println("____________________________________________________________");
-//        System.out.println("Here are the available commands:");
-//        System.out.println("1. list - Show all tasks");
-//        System.out.println("2. todo <description> - Add a Todo task");
-//        System.out.println("3. deadline <description> /by <yyyy-MM-dd HH:mm> - Add a Deadline task");
-//        System.out.println("4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task");
-//        System.out.println("5. mark <task number> - Mark a task as done");
-//        System.out.println("6. unmark <task number> - Mark a task as not done yet");
-//        System.out.println("7. help - Show the command list");
-//        System.out.println("8. bye - Exit the program");
-//        System.out.println("____________________________________________________________");
         return "Here are the available commands:" + "\n"
                 + "1. list - Show all tasks" + "\n"
                 + "2. todo <description> - Add a Todo task" + "\n"
