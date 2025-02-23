@@ -16,14 +16,17 @@
     - [Archive a task](#archive-a-task)
     - [Load archived tasks](#load-archived-tasks)
     - [Exit the application](#exit-the-application)
-- [Customization](#customization)
+- [Future Development Plans](#Future-Development-Plans)
 - [FAQ](#faq)
 - [Support](#support)
 
 ## Introduction
 NeoChat is a task management chatbot designed to help you organize your tasks efficiently through a chat interface.
 
+
 ## Installation
+
+**Note:** The saved task list is stored in the `/src/data/` directory within the same folder as the `.jar` file. If the directory does not exist, it will be created automatically.
 1. Ensure you have Java 17 or later installed.
 2. Download the latest release from the [GitHub Releases](https://github.com/Taoseeker/ip/releases).
 3. Extract the downloaded file to a suitable location.
@@ -135,8 +138,11 @@ Saves the current task list and exits.
 bye
 ```
 
-## Customization
-You can modify the chat UI appearance by changing the `style.css` file located in the `/styles/` directory.
+
+## Future Development Plans
+- Add an **edit** feature to modify existing tasks.
+- Implement support for **custom save paths**, allowing users to specify where task lists are stored.
+- Implement support for **custom Ui style**.
 
 ## FAQ
 **Q: What happens if I close the application?**  
