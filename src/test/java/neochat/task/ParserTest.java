@@ -19,7 +19,7 @@ public class ParserTest {
         mockTaskList = Mockito.mock(TaskList.class);
         parser = new Parser(mockTaskList);
     }
-    
+
     @Test
     void parseDateTime_InvalidFormat_ThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
