@@ -37,12 +37,6 @@ public class TaskList {
         loadTask();
     }
 
-    /**
-     * Saves current tasks to file and performs cleanup when exiting the application.
-     */
-    public void quit() {
-        saveTasks();
-    }
 
     /**
      * Adds a task to the list and updates the task count.
