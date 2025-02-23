@@ -53,8 +53,6 @@ public class Parser {
             case "event":
                 s = parseEvent(remainingInput);
                 break;
-                case "edit":
-                s = editTask(remainingInput);
             case "bye" :
                 taskList.saveTasks();
                 s = "bye";
@@ -109,13 +107,14 @@ public class Parser {
                 + "4. event <description> /from <yyyy-MM-dd HH:mm> /to <yyyy-MM-dd HH:mm> - Add an Event task" + "\n"
                 + "5. mark <task number> - Mark a task as done" + "\n"
                 + "6. unmark <task number> - Mark a task as not done" + "\n"
-                + "7. help - Show the command list" + "\n"
-                + "8. bye - Exit the program";
+                + "7. delete <task number> - Delete a task" + "\n"
+                + "8. archive <task number> - Archive a task" + "\n"
+                + "9. loadarchive <task number> - Archive a task" + "\n"
+                + "10. find <task number> - Find a task" + "\n"
+                + "11. help - Show the command list" + "\n"
+                + "12. bye - Exit the program";
     }
 
-    private String editTask(String remainingInput) {
-        return "";
-    }
 
     /**
      * Parses a Todo command and adds the task.
