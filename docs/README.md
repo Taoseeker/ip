@@ -25,7 +25,7 @@ NeoChat is a task management chatbot designed to help you organize your tasks ef
 
 ## Installation
 1. Ensure you have Java 17 or later installed.
-2. Download the latest release from the [GitHub Releases](https://github.com/Taoseeker/ip/releases/tag/NeoChatV0.3).
+2. Download the latest release from the [GitHub Releases](https://github.com/Taoseeker/ip/releases).
 3. Extract the downloaded file to a suitable location.
 4. Open a terminal and navigate to the project directory.
 
