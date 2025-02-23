@@ -25,13 +25,15 @@ public class MainWindow extends AnchorPane {
 
     private NeoChat neoChat;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image neoChatImage = new Image(this.getClass().getResourceAsStream("/images/DaNeoChat.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/rikki.jpg"));
+    private Image neoChatImage = new Image(this.getClass().getResourceAsStream("/images/anon.jpg"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().add(DialogBox.getNeoChatDialog("Hello! Welcome to NeoChat", neoChatImage));
+
+        dialogContainer.setStyle("-fx-background-color: linear-gradient(to bottom, #E3F2FD, #BBDEFB);");
     }
 
     /** Injects the neochat instance */
