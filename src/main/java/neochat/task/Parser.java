@@ -1,11 +1,11 @@
 package neochat.task;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
 
-import neochat.task.tasklist.TaskList;
 import neochat.task.taskexception.EmptyTaskDescriptionException;
+import neochat.task.tasklist.TaskList;
 
 /**
  * The {@code Parser} class is responsible for parsing user commands and executing
@@ -53,7 +53,7 @@ public class Parser {
             case "event":
                 s = parseEvent(remainingInput);
                 break;
-            case "bye" :
+            case "bye":
                 taskList.saveTasks();
                 s = "bye";
                 break;
@@ -125,7 +125,7 @@ public class Parser {
     private String parseTodo(String input) {
         String s = "";
         try {
-            s =  this.taskList.addTask(new Todo(input.trim()));
+            s = this.taskList.addTask(new Todo(input.trim()));
         } catch (EmptyTaskDescriptionException e) {
             System.out.println("Task description is empty");
         }
@@ -137,8 +137,8 @@ public class Parser {
         String s = "";
         String[] parts = input.split(" /by ", 2);
         if (parts.length < 2) {
-            throw new IllegalArgumentException("Deadline format error，the correct format should be" +
-                    " deadline <description> /by yyyy-MM-dd HH:mm");
+            throw new IllegalArgumentException("Deadline format error，the correct format should be"
+                    + " deadline <description> /by yyyy-MM-dd HH:mm");
         }
         assert parts.length >= 2 : "Deadline format error";
         String description = parts[0].trim();
@@ -156,8 +156,8 @@ public class Parser {
         String s = "";
         String[] parts = input.split(" /from | /to ", 3);
         if (parts.length < 3) {
-            throw new IllegalArgumentException("Event format error，the correct format should be" +
-                    " event <description> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm");
+            throw new IllegalArgumentException("Event format error，the correct format should be"
+                    + " event <description> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm");
         }
         assert parts.length >= 3 : "Event format error";
         String description = parts[0].trim();
