@@ -42,6 +42,7 @@ public class TaskList {
      * Adds a task to the list and updates the task count.
      *
      * @param task The task object to be added (Todo/Deadline/Event)
+     * @return A message confirming the task addition.
      */
     public String addTask(Task task) {
         tasks.add(task);
@@ -226,6 +227,8 @@ public class TaskList {
     /**
      * Displays all tasks in the list with their indexes.
      * Shows "Empty task list!" if no tasks exist.
+     *
+     * @return A formatted string of the task list.
      */
     public String printList() {
         if (tasks.isEmpty()) {

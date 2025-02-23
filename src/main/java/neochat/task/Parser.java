@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 import neochat.task.tasklist.TaskList;
 import neochat.task.taskexception.EmptyTaskDescriptionException;
 
+/**
+ * The {@code Parser} class is responsible for parsing user commands and executing
+ * the corresponding task operations.
+ * It processes user input and delegates task operations to the {@link TaskList}.
+ */
 public class Parser {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -21,6 +26,13 @@ public class Parser {
         this.taskList = taskList;
     }
 
+    /**
+     * Parses and executes the given command input.
+     *
+     * @param input The user command string.
+     * @return A string representing the result of executing the command.
+     * @throws IllegalArgumentException If the input is empty or invalid.
+     */
     public String parseCommand(String input) {
         if (input == null || input.trim().isEmpty()) {
             throw new IllegalArgumentException("The input is empty");
@@ -84,6 +96,11 @@ public class Parser {
         return s;
     }
 
+    /**
+     * Prints the available commands.
+     *
+     * @return A formatted string listing the supported commands.
+     */
     private static String printCommandList() {
         return "Here are the available commands:" + "\n"
                 + "1. list - Show all tasks" + "\n"
