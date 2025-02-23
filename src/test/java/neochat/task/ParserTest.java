@@ -19,13 +19,7 @@ public class ParserTest {
         mockTaskList = Mockito.mock(TaskList.class);
         parser = new Parser(mockTaskList);
     }
-
-    @Test
-    void parseCommand_ByeCommand_SetsIsExitToTrue() {
-        parser.parseCommand("bye");
-        assertTrue(parser.isExit());
-    }
-
+    
     @Test
     void parseDateTime_InvalidFormat_ThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {

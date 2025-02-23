@@ -313,7 +313,7 @@ public class TaskList {
             Task task = tasks.get(taskIndex);
             tasks.remove(taskIndex);
             count--;
-            s = "Noted. I've removed this task:" + "\n" + "  " + task + "\n"
+            s = "Noted. I've removed this task:" + "\n" + "  " + task.toString() + "\n"
                 + "Now you have " + count + " tasks in the list.";
         } catch (NumberFormatException e) {
             s = "Invalid input. Please provide a valid task number.";
