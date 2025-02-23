@@ -22,14 +22,6 @@ public class DialogBox extends HBox {
     private Label text;
 
     public DialogBox(String text, Image img) {
-//        text = new Label(s);
-//        displayPicture = new ImageView(i);
-//        this.getChildren().addAll(text, displayPicture);
-//        text.setWrapText(true);
-//        displayPicture.setFitWidth(100.0);
-//        displayPicture.setFitHeight(100.0);
-//        this.setAlignment(Pos.TOP_RIGHT);
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
