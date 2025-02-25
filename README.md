@@ -13,7 +13,7 @@ NeoChat is a task management chatbot that allows users to manage their tasks usi
 
 ## Installation
 ### Prerequisites
-- Ensure you have **Java 11 or later** installed.
+- Ensure you have **Java 17 or later** installed.
 
 ### Steps
 1. **Download the latest release** from the [GitHub Releases](https://github.com/Taoseeker/ip/releases).
